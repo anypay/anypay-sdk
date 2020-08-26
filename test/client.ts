@@ -10,17 +10,18 @@ describe("Anypay Payments SDK", () => {
 
   it("#should create a request for a multi-output payment", async () => {
 
-    let paymentRequest = await anypay.request({
+    let paymentRequest = await anypay.request([{
+      currency: 'BCH',
       to: [{
-        paymail: 'steven@simply.cash',
+        address: demo.address('BCH'),
         amount: 10,
         currency: 'USD'
       }, {
-        paymail: 'zyler@handcash.io',
+        address: demo.address('BCH'),
         amount: 150,
         currency: 'USD'
       }]
-    })
+    }])
 
     assert(paymentRequest.url.match(/^https:\/\/api.anypayinc.com\/r/))
     assert(paymentRequest.uri.match(/^pay?r=https:\/\/api.anypayinc.com\/r/))
@@ -32,13 +33,14 @@ describe("Anypay Payments SDK", () => {
 
   it("#should be able to cancel a payment request", async () => {
 
-    let paymentRequest = await anypay.request({
+    let paymentRequest = await anypay.request([{
+      currency: 'BSV',
       to: [{
-        paymail: 'steven@simply.cash',
-        amount: 10,
+        address: 'steven@simply.cash',
+        amount: 0.21,
         currency: 'USD'
       }]
-    })
+    }])
 
     paymentRequest = await anypay.cancel(paymentRequest.uid)
 

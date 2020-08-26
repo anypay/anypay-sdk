@@ -5,6 +5,23 @@ import { PaymentRequest } from './types'
 
 export { PaymentRequest }
 
+const Joi = require('joi');
+
+const templateSchema = Joi.array().items(
+  Joi.object({
+    currency: Joi.string().required(),
+    to: Joi.array().items(
+
+      Joi.object({
+        address: Joi.string().required(),
+        amount: Joi.number().required(),
+        currency: Joi.string()
+      }).required()
+    
+    ).required()
+  }).required()
+)
+
 class Anypay {
 
   apiKey: string
@@ -17,6 +34,13 @@ class Anypay {
   }
 
   async request(template): Promise<PaymentRequest> {
+
+    const { error, value } = templateSchema.validate(template)
+
+    if (error) {
+      console.error(error.message)
+      throw error;
+    }
 
     try {
 
