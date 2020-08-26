@@ -9,7 +9,7 @@ describe("Anypay Payments SDK", () => {
 
   it("#should create a request for a multi-output payment", async () => {
 
-    let paymentRequest = await anypay.requestPayment({
+    let paymentRequest = await anypay.request({
       to: [{
         paymail: 'steven@simply.cash',
         amount: 10,
@@ -31,7 +31,7 @@ describe("Anypay Payments SDK", () => {
 
   it("#should be able to cancel a payment request", async () => {
 
-    let paymentRequest = await anypay.requestPayment({
+    let paymentRequest = await anypay.request({
       to: [{
         paymail: 'steven@simply.cash',
         amount: 10,
