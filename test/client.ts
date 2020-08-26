@@ -1,42 +1,15 @@
+import * as assert from 'assert'
+require('dotenv').config()
 
-class Anypay {
+import { app, demo } from '../src/lib'
 
-  constructor(apiKey: string) {
-
-    this.apiKey = apiKey
-  }
-
-  requestPayment(details, options = {}) {
-
-    let resp = await http
-      .post(`https://pay.anypayinc.com/r`)
-      .auth(this.apiKey, '')
-
-    return resp.body
-
-  }
-
-  cancelPaymentRequest(uid: string) {
-
-  }
-
-  getPaymentRequest(uid: string) {
-
-  }
-
-  letPaymentRequests(options = {}) {
-
-  }
-
-}
-
-const anypay = new Anypay(process.env.ANYPAY_API_KEY) 
+const anypay = app(process.env.ANYPAY_API_KEY) 
 
 describe("Anypay Payments SDK", () => {
 
   it("#should create a request for a multi-output payment", async () => {
 
-    let paymentRequest = anypay.requestPayment({
+    let paymentRequest = await anypay.requestPayment({
       to: [{
         paymail: 'steven@simply.cash',
         amount: 10,
@@ -48,11 +21,9 @@ describe("Anypay Payments SDK", () => {
       }]
     })
 
-    assert(paymentRequest.url.match(/^https://api.anypayinc.com\/r/))
-    assert(paymentRequest.uri.match(/^pay?r=https://api.anypayinc.com\/r/))
+    assert(paymentRequest.url.match(/^https:\/\/api.anypayinc.com\/r/))
+    assert(paymentRequest.uri.match(/^pay?r=https:\/\/api.anypayinc.com\/r/))
     assert(paymentRequest.uid)
-
-    let paymentRequest = anypay.getPaymentRequest(paymentRequest.uid)
 
   })
 
@@ -60,7 +31,7 @@ describe("Anypay Payments SDK", () => {
 
   it("#should be able to cancel a payment request", async () => {
 
-    let paymentRequest = anypay.requestPayment({
+    let paymentRequest = await anypay.requestPayment({
       to: [{
         paymail: 'steven@simply.cash',
         amount: 10,
