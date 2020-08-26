@@ -1,33 +1,35 @@
 
 # Anypay Platform for Node.js 
 
-Not Yet Implemented
+NOT YET IMPLEMENTED
 
 ```
+import { app, demo } from 'anypay'
+import { PaymentRequest } from '@anypay/types'
 
 let anypay_app_token = process.env.ANYPAY_APP_TOKEN
 
-let anypay = new Anypay(anypay_app)
+let anypay = anypay.app(anypay_app_token)
 
 let paymentRequest: PaymentRequest = await anypay.requestPayment([{
 
   currency: 'BSV'
 
-  to: [{ bsvAddress, bsvAmount }]
+  to: [{ demo.address('BSV'), demo.amount() }]
 
 }])
 
-let paymentRequest: PaymentRequest = await requestPayment([{
+let paymentRequest: PaymentRequest = await anypay.requestPayment([{
 
   currency: 'BSV'
 
-  to: [{ address, amount }]
+  to: [{ demo.address('BSV'), demo.amount() }]
 
 }, {
 
   currency: 'BCH',
 
-  to: [{ bchAddress, bchAmount }]
+  to: [{ demo.address('BCH'), demo.amount() }]
 
 }])
 
