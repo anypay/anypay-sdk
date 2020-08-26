@@ -1,6 +1,10 @@
 
 import * as http from 'superagent'
 
+import { PaymentRequest } from './types'
+
+export { PaymentRequest }
+
 class Anypay {
 
   apiKey: string
@@ -12,7 +16,7 @@ class Anypay {
     this.apiBase = process.env.ANYPAY_API_BASE || 'https://pay.anypayinc.com'
   }
 
-  async request(details, options = {}) {
+  async request(template): Promise<PaymentRequest> {
 
     try {
 

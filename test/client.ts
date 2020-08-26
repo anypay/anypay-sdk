@@ -2,6 +2,7 @@ import * as assert from 'assert'
 require('dotenv').config()
 
 import { app, demo } from '../src/lib'
+import { PaymentRequest } from '../src/lib/types'
 
 const anypay = app(process.env.ANYPAY_API_KEY) 
 

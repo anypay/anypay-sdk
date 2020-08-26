@@ -1,6 +1,6 @@
 {
   "name": "anypay",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "dist/src/lib/index.js",
   "types": "dist/src/lib/index.d.js",
