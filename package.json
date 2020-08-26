@@ -1,6 +1,6 @@
 {
   "name": "anypay",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Anypay Enterprise Payments Platform",
   "main": "dist/src/lib/index.js",
   "types": "dist/src/lib/index.d.js",
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/joi": "^14.3.4",
     "@types/mocha": "^8.0.3",
     "@types/node": "^14.6.0",
     "dotenv": "^8.2.0",

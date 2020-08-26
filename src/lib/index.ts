@@ -51,17 +51,20 @@ class Anypay {
 
     try {
 
+      let url = `${this.apiBase}/r` 
+
       let resp = await http
-        .post(`${this.apiBase}/r`)
+        .post(url)
+        .send({ template })
         .auth(this.apiKey, '')
 
       return resp.body
 
      } catch(error) {
 
-      console.error(error.message)
+      console.error(error.response.error)
 
-      throw error
+      throw error.response.error
 
      }
 
@@ -81,7 +84,7 @@ class Anypay {
 
       console.error(error.message)
 
-      throw error
+      throw error.response.error
 
      }
 
