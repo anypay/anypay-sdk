@@ -4,7 +4,7 @@ require('dotenv').config()
 import { app, demo, schema } from '../src/lib'
 import { PaymentRequest } from '../src/lib/types'
 
-const anypay = app(process.env.ANYPAY_API_KEY) 
+const anypay = app(process.env.ANYPAY_APP_TOKEN) 
 
 describe("Anypay Payments SDK", () => {
 
