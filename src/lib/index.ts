@@ -7,7 +7,8 @@ export { PaymentRequest }
 
 const Joi = require('joi');
 
-const templateSchema = Joi.array().items(
+const PaymentRequestTemplateSchema = Joi.array().items(
+
   Joi.object({
     currency: Joi.string().required(),
     to: Joi.array().items(
@@ -22,6 +23,12 @@ const templateSchema = Joi.array().items(
   }).required()
 )
 
+const schema = {
+  PaymentRequestTemplate: PaymentRequestTemplateSchema
+}
+
+export { schema }
+
 class Anypay {
 
   apiKey: string
@@ -35,7 +42,7 @@ class Anypay {
 
   async request(template): Promise<PaymentRequest> {
 
-    const { error, value } = templateSchema.validate(template)
+    const { error, value } = schema.PaymentRequestTemplate.validate(template)
 
     if (error) {
       console.error(error.message)

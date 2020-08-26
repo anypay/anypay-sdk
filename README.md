@@ -34,3 +34,4 @@ let paymentRequest: PaymentRequest = await anypay.request([{
 }])
 
 ```
+
