@@ -58,7 +58,7 @@ class Anypay {
         .send({ template })
         .auth(this.apiKey, '')
 
-      return resp.body
+      return resp.body.payment_request
 
      } catch(error) {
 

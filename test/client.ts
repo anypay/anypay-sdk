@@ -23,6 +23,8 @@ describe("Anypay Payments SDK", () => {
       }]
     }])
 
+    console.log(paymentRequest)
+
     assert(paymentRequest.url.match(/^https:\/\/api.anypayinc.com\/r/))
     assert(paymentRequest.uri.match(/^pay?r=https:\/\/api.anypayinc.com\/r/))
     assert(paymentRequest.uid)
