@@ -1,9 +1,9 @@
 {
   "name": "anypay",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Anypay Enterprise Payments Platform",
-  "main": "dist/lib/index.js",
-  "types": "dist/lib/index.d.js",
+  "main": "dist/src/lib/index.js",
+  "types": "dist/src/lib/index.d.js",
   "scripts": {
     "test": "mocha --require=ts-node/register test/*.ts",
     "prepublish": "tsc"
