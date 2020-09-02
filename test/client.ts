@@ -4,30 +4,59 @@ require('dotenv').config()
 import { app, demo, schema } from '../src/lib'
 import { PaymentRequest } from '../src/lib/types'
 
+import * as bsv from 'bsv'
+
 const anypay = app(process.env.ANYPAY_APP_TOKEN) 
 
 describe("Anypay Payments SDK", () => {
 
   it("should create a request for a multi-output payment", async () => {
 
-    let paymentRequest = await anypay.request([{
+    let template = [{
       currency: 'BCH',
       to: [{
         address: demo.address('BCH'),
-        amount: 10,
+        amount: 0.01,
         currency: 'USD'
       }, {
         address: demo.address('BCH'),
-        amount: 150,
-        currency: 'USD'
+        amount: 0.15,
+        currency: 'EUR'
       }]
-    }])
+    }, {
+      currency: 'BSV',
+      to: [{
+        address: demo.address('BSV'),
+        amount: 0.01,
+        currency: 'USD'
+      }, {
+        address: demo.address('BSV'),
+        amount: 0.15,
+        currency: 'EUR'
+      }]
+    }]
+
+    let privkey = new bsv.PrivateKey()
+
+    let paymentRequest = await anypay.request(template, {
+      webhook: 'https://credits.anypayinc.com/api/webhooks/anypay',
+      redirect: `https://credits.anypayinc.com/cards/${privkey.publicKey.toString()}`,
+      secret: privkey.toString(),
+      metadata: {
+        avatarUrl: 'https://anypayinc.com/logos/freshpress.png'
+      }
+    })
 
     console.log(paymentRequest)
 
-    assert(paymentRequest.url.match(/^https:\/\/api.anypayinc.com\/r/))
-    assert(paymentRequest.uri.match(/^pay?r=https:\/\/api.anypayinc.com\/r/))
+    assert(paymentRequest.webpage_url.match(/^https:\/\/app.anypayinc.com\/invoices/))
+    assert(paymentRequest.uri.match(/^pay/))
     assert(paymentRequest.uid)
+
+  })
+
+  it('should create a request with 20 outputs', async () => {
+
 
   })
 
@@ -85,7 +114,7 @@ describe("Anypay Payments SDK", () => {
 
 
 
-  it("should be able to cancel a payment request", async () => {
+  it.skip("should be able to cancel a payment request", async () => {
 
     let paymentRequest = await anypay.request([{
       currency: 'BSV',

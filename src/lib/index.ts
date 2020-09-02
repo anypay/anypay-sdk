@@ -23,8 +23,16 @@ const PaymentRequestTemplateSchema = Joi.array().items(
   }).required()
 )
 
+const PaymentRequestOptionsSchema = Joi.object().keys({
+  webhook: Joi.string().uri().optional(),
+  redirect: Joi.string().uri().optional(),
+  secret: Joi.string().optional(),
+  metadata: Joi.object().optional()
+})
+
 const schema = {
-  PaymentRequestTemplate: PaymentRequestTemplateSchema
+  PaymentRequestTemplate: PaymentRequestTemplateSchema,
+  PaymentRequestOptions: PaymentRequestOptionsSchema
 }
 
 export { schema }
@@ -37,14 +45,21 @@ class Anypay {
   constructor(apiKey: string) {
 
     this.apiKey = apiKey
-    this.apiBase = process.env.ANYPAY_API_BASE || 'https://pay.anypayinc.com'
+    this.apiBase = process.env.ANYPAY_API_BASE || 'https://api.anypayinc.com'
   }
 
-  async request(template): Promise<PaymentRequest> {
+  async request(template, options={}): Promise<PaymentRequest> {
 
     const { error, value } = schema.PaymentRequestTemplate.validate(template)
 
     if (error) {
+      console.error(error.message)
+      throw error;
+    }
+
+    const { optionsError } = schema.PaymentRequestOptions.validate(options)
+
+    if (optionsError) {
       console.error(error.message)
       throw error;
     }
@@ -55,10 +70,13 @@ class Anypay {
 
       let resp = await http
         .post(url)
-        .send({ template })
+        .send({ template, options })
         .auth(this.apiKey, '')
 
-      return resp.body.payment_request
+      resp.body.payment_request.uid = resp.body.payment_request.invoice_uid
+      delete resp.body.payment_request.invoice_uid
+
+      return Object.assign(resp.body.payment_request, resp.body.options)
 
      } catch(error) {
 
