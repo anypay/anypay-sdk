@@ -32,5 +32,21 @@ let paymentRequest: PaymentRequest = await anypay.request([{
 
 }])
 
+paymentRequest.on('paid', payment => {
+
+})
+
+paymentRequest.on('expired', () => {
+
+})
+
+paymentRequest.on('cancelled', () => {
+
+})
+
+paymentRequest.on('rejection', rejectedPayment => {
+
+})
+
 ```
 
