@@ -1,23 +1,30 @@
 {
   "name": "anypay",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Anypay Enterprise Payments Platform",
   "main": "dist/src/lib/index.js",
   "types": "dist/src/lib/index.d.js",
   "scripts": {
     "test": "mocha --require=ts-node/register test/*.ts",
+    "build": "tsc",
     "prepublish": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/chai": "^4.3.3",
     "@types/joi": "^14.3.4",
     "@types/mocha": "^8.0.3",
     "@types/node": "^14.6.0",
+    "axios": "^0.27.2",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "chai-spies": "^1.0.0",
     "dotenv": "^8.2.0",
     "joi": "^17.2.1",
     "mocha": "^8.1.1",
+    "nconf": "^0.12.0",
     "superagent": "^6.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"

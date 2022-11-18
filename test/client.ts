@@ -2,7 +2,7 @@ import * as assert from 'assert'
 require('dotenv').config()
 
 import { app, demo, schema } from '../src/lib'
-import { PaymentRequest } from '../src/lib/types'
+//import { PaymentRequest } from '../src/lib/types'
 
 import * as bsv from 'bsv'
 
