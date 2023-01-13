@@ -1,5 +1,6 @@
 interface AnypayOptions {
     apiBase?: string;
+    apiKey?: string;
   }
   
 import { PaymentRequest } from './payment_request'
@@ -14,25 +15,23 @@ import * as http from 'superagent'
 
 import { Invoice } from './invoice'
 
-
 interface CreateInvoiceResponse {
     invoice: Invoice;
     refresh: Function;
     cancel: Function;
     paymentOptions: Function;
   }
-  
 
 export class App extends EventEmitter {
 
     apiKey: string
     apiBase: string
   
-    constructor(apiKey: string, options: AnypayOptions = {}) {
+    constructor(options: AnypayOptions = {}) {
 
       super()
   
-      this.apiKey = apiKey
+      this.apiKey = options.apiKey || '1f2a4a55-85ed-4935-af60-1ec91e75e2fc';
       this.apiBase = options.apiBase || 'https://api.anypayx.com'
     }
   
@@ -60,8 +59,6 @@ export class App extends EventEmitter {
           .post(url)
           .send({ template, options })
           .auth(this.apiKey, '')
-
-        console.log(resp.body)
   
         resp.body.uid = resp.body.invoice_uid
         
@@ -70,8 +67,6 @@ export class App extends EventEmitter {
         return Object.assign(resp.body, resp.body.options)
   
        } catch(error) {
-
-         console.log(error)
   
         console.error(error.response.error)
   
@@ -105,6 +100,10 @@ export class App extends EventEmitter {
             .post(url)
             .send({ template, options })
             .auth(this.apiKey, '')
+
+          if (resp.status === 400) {
+            throw new Error(resp.body.payload)
+          }
     
           resp.body.payment_request.uid = resp.body.payment_request.invoice_uid
           
