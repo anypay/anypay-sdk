@@ -13,13 +13,23 @@ import { Invoice } from './invoice'
 
 export { Invoice } from './invoice'
 
-export function app(anypay_app_token) {
+import EventEmitter from 'eventemitter3'
 
-  return new App(anypay_app_token)
+export { Wallet } from './wallet'
+
+export function app(params) {
+
+  return new App(params)
 
 }
 
-const defaultApp = new App('1f2a4a55-85ed-4935-af60-1ec91e75e2fc')
+export function init(params) {
+
+  return new App(params)
+
+}
+
+const defaultApp = new App()
 
 export default defaultApp
 
@@ -34,3 +44,22 @@ export async function cancel(invoice: Invoice): Promise<Invoice> {
 }
 
 export { demo } from './demo'
+
+
+export { subscribe } from './websocket'
+
+export async function createInvoice(): Promise<EventEmitter> {
+
+  return new EventEmitter()
+
+}
+
+import { Options } from './payment_request'
+
+export async function requestPayment(options: Options): Promise<EventEmitter> {
+
+  return new EventEmitter()
+
+}
+
+export { log } from './log'
