@@ -1,6 +1,6 @@
 {
   "name": "anypay",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "Anypay Enterprise Payments Platform",
   "main": "dist/src/lib/index.js",
   "types": "dist/src/lib/index.d.js",
