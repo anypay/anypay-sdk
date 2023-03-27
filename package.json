@@ -1,9 +1,13 @@
 {
   "name": "anypay",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Anypay Enterprise Payments Platform",
   "main": "dist/src/lib/index.js",
   "types": "dist/src/lib/index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anypay/anypay-sdk.git"
+  },
   "scripts": {
     "test": "mocha --require=ts-node/register test/*.ts",
     "build": "tsc",
