@@ -37,8 +37,8 @@ let paymentRequest = await anypay.request([{
 
   metadata: {
 
-    merchantImageUrl: 'https://linestarautomation.com/solar-panels.jpg'
-    
+    merchantImageUrl: 'https://bico.media/95a49bbd42717a80d6986181a8a9e8ade30fb9284ef0fb81f61a7de6228108d1.jpg'
+
   }
 })
 ```
