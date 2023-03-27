@@ -25,7 +25,7 @@ export async function main() {
 
   }], {
 
-    webhook: 'https://example.com/anypay-webhooks'
+    webhook_url: 'https://example.com/anypay-webhooks'
 
   })
 

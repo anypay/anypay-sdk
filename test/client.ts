@@ -39,8 +39,8 @@ describe("Anypay Payments SDK", () => {
     let privkey = new bsv.PrivateKey()
 
     let paymentRequest = await anypay.request(template, {
-      webhook: 'https://credits.anypayinc.com/api/webhooks/anypay',
-      redirect: `https://credits.anypayinc.com/cards/${privkey.publicKey.toString()}`,
+      webhook_url: 'https://credits.anypayinc.com/api/webhooks/anypay',
+      redirect_url: `https://credits.anypayinc.com/cards/${privkey.publicKey.toString()}`,
       secret: privkey.toString(),
       metadata: {
         avatarUrl: 'https://anypayinc.com/logos/freshpress.png'

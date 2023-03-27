@@ -27,7 +27,20 @@ let paymentRequest = await anypay.request([{
     currency: 'USD'
   }]
 
-}])
+}], {
+
+  webhook_url: 'https://ecommerce.mystore.com/anypay-webhooks',
+
+  redirect_url: 'https://mystore.com/checkout-complete/23if3oio',
+
+  secret: 'my-shared-secret-for-webhook-verification',
+
+  metadata: {
+
+    merchantImageUrl: 'https://linestarautomation.com/solar-panels.jpg'
+    
+  }
+})
 ```
 
 ## Multi-Coin Requests

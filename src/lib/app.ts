@@ -5,6 +5,8 @@ interface AnypayOptions {
   connectWebsocket?: boolean;
 }
 
+import { PaymentRequestOptions } from './payment_request'
+
 import { WebSocket } from 'ws'
 
 import axios from 'axios'
@@ -136,7 +138,7 @@ export class App extends EventEmitter {
 
   }
 
-  async request(template, options={}): Promise<PaymentRequest> {
+  async request(template, options: PaymentRequestOptions={}): Promise<PaymentRequest> {
 
     const { error, value } = schema.PaymentRequestTemplate.validate(template)
 

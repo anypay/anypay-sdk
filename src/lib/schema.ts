@@ -39,8 +39,8 @@ const PaymentRequestTemplateSchema = Joi.alternatives().try(
 )
 
 const PaymentRequestOptionsSchema = Joi.object().keys({
-  webhook: Joi.string().uri().optional(),
-  redirect: Joi.string().uri().optional(),
+  webhook_url: Joi.string().uri().optional(),
+  redirect_url: Joi.string().uri().optional(),
   secret: Joi.string().optional(),
   metadata: Joi.object().optional()
 })

@@ -7,4 +7,10 @@ export interface PaymentRequest {
     status: string;
     template: any;
 }
-    
+
+export interface PaymentRequestOptions {
+    webhook_url?: string;
+    redirect_url?: string;
+    secret?: string;
+    metadata?: any;
+}
