@@ -82,19 +82,46 @@ export class Invoice extends EventEmitter {
 
       // TODO: Actually Fetch Payment & Confirmation Detail
 
-      const payment = new Payment()
 
-      const confirmation = new Confirmation()
+      const url = `${this.apiBase}/api/v1/invoices/${this.uid}/events`
 
-      return {payment, confirmation}
+      const { data } = await axios.get(`${url}`, {
+        auth: {
+          username: this.apiKey,
+          password: ''
+        }
+      })
+
+      const response: PaymentConfirmation = {}
+
+      if (data.payment) {
+
+        response.payment = new Payment(data.payment)
+
+      }
+
+      if (data.confirmation) {
+
+        response.confirmation = new Confirmation(data.confirmation)
+
+      }
+
+      return response
 
     }
 
     async getPayment(): Promise<Payment> {
 
-      // TODO: Actually Fetch Payment 
+      const url = `${this.apiBase}/api/v1/invoices/${this.uid}/payment`
 
-      const payment = new Payment()
+      const { data } = await axios.get(`${url}`, {
+        auth: {
+          username: this.apiKey,
+          password: ''
+        }
+      })
+
+      const payment = new Payment(data.payment)
 
       return payment
 

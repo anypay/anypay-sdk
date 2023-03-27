@@ -3,21 +3,25 @@ require('dotenv').config()
 
 import { app, Invoice, Payment, getInvoice } from '../src/lib'
 
-import anypay from '../src/lib'
-
 import { expect } from './utils'
 
 import { wallets } from './fixtures'
 
-describe("Cancelling Invoices", () => {
+describe("Confirming Invoice Payments", () => {
+
+  const anypay = app({
+    apiBase: process.env.anypay_api_base || 'https://api.anypayx.com',
+  })
 
   it('should fetch payment confirmation details for paid invoice', async () => {
 
-    const invoice_uid = '' // TODO: Insert Known Confirmed BTC Payment Invoice UID
+    const invoice_uid = 'iQBfCPVjX'
 
-    const invoice = await getInvoice({ uid: invoice_uid })
+    const invoice = await anypay.getInvoice({ uid: invoice_uid })
 
     const {payment, confirmation} = await invoice.getPaymentConfirmation()
+
+    console.log({ payment, confirmation })
 
     expect(payment.txid).to.be.a('string')
 
@@ -35,7 +39,7 @@ describe("Cancelling Invoices", () => {
 
   })
 
-  it('should have neither payment nor confirmation for new invoiec', async () => {
+  it('should have neither payment nor confirmation for new invoice', async () => {
 
     const {invoice, cancel, refresh} = await anypay.createInvoice([{
       currency: 'BTC',

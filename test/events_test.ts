@@ -33,7 +33,7 @@ describe("Invoice Events", () => {
 
       const anypay = app({
         apiKey: process.env.anypay_api_key,
-        apiBase: 'http://localhost:5200'
+        apiBase
       })
 
       const invoice = await anypay.getInvoice({ uid: invoice_uid })

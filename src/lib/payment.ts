@@ -9,5 +9,19 @@ export class Payment {
 
   currency: string;
 
+  constructor(data) {
+
+    const { txid, timestamp, chain, currency } = data
+
+    this.txid = txid
+
+    this.timestamp = timestamp
+
+    this.chain = chain
+
+    this.currency = currency
+
+  }
+
 }
 
