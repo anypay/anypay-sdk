@@ -15,10 +15,13 @@ const API_BASE = `https://api.anypayx.com`
 
 const URI_BASE = `pay:?r=https://api.anypayx.com/i`
 
+import { WebSocket } from 'ws'
+
 export interface InvoiceOptions {
     paymentRequest?: PaymentRequest
     apiBase?: string;
     apiKey?: string;
+    websocketUrl?: string;
 }
 
 export interface PaymentConfirmation {
@@ -28,9 +31,13 @@ export interface PaymentConfirmation {
 
 export class Invoice extends EventEmitter {
 
+    websocket: WebSocket;
+
     uid: string;
 
     apiBase: string;
+
+    websocketUrl: string;
 
     apiKey: string;
 
@@ -46,6 +53,8 @@ export class Invoice extends EventEmitter {
         this.apiBase = options.apiBase || API_BASE
 
         this.apiKey = options.apiKey
+
+        this.websocketUrl = options.websocketUrl || 'wss://ws.anypayx.com'
     }
 
     static fromPaymentRequest(paymentRequest: PaymentRequest): Invoice {
@@ -167,6 +176,74 @@ export class Invoice extends EventEmitter {
       }
 
       return payment
+
+    }
+
+    async connectWebsocket(): Promise<WebSocket> {
+
+      if (!this.websocket) {
+
+        this.websocket = new WebSocket(this.websocketUrl, {
+          headers: {
+            'anypay-invoice-uid': this.uid
+          }
+        })
+
+        this.websocket.on('open', () => {
+          console.debug('anypay.websocket.opened')
+
+          this.emit('websocket.connected')
+
+        })
+
+        this.websocket.on('error', (error) => {
+          console.error("anypay.websocket.error", error)
+        })
+
+        this.websocket.on('disconnect', (reason) => {
+          console.log("anypay.websocket.disconnected", reason)
+
+          setTimeout(() => {
+            this.websocket = null
+            console.debug("anypay.websocket.reconnecting")
+            const connectWebsocket = this.connectWebsocket
+
+            setImmediate(connectWebsocket)
+
+          }, 5000)
+        })
+
+        this.websocket.on('close', (reason) => {
+          console.log("anypay.websocket.close", reason)
+
+          setTimeout(() => {
+            delete this.websocket;
+            console.debug("anypay.websocket.reconnecting")
+            setImmediate(this.connectWebsocket)
+          }, 5000)
+        })
+
+        this.websocket.on('message', message => {
+
+          try {
+
+            const { type, payload } = JSON.parse(message.toString('utf8'))
+
+            this.emit('websocket.message.received', {type,payload})
+
+            this.emit(type, payload)
+
+          } catch(error) {
+
+            console.debug('websocket.message.received.json.parse.error', error)
+
+          }
+          
+        })
+
+      }
+        
+      return this.websocket
 
     }
 

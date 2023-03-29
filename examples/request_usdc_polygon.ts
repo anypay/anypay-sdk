@@ -1,11 +1,7 @@
 
 require('dotenv').config()
 
-//import { app } from './src/lib'
-import { app } from './'
-import anypay from './'
-
-import { PaymentOption } from './'
+import { app, PaymentOption} from '../'
 
 export async function main() {
 
@@ -13,7 +9,7 @@ export async function main() {
 
     const anypay = app({
 
-      //apiBase: process.env.anypay_api_base,
+      apiBase: process.env.anypay_api_base,
 
       apiKey: process.env.anypay_api_key
 
