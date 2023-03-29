@@ -37,6 +37,7 @@ const PaymentRequestTemplateSchema = Joi.alternatives().try(
   Joi.array().items(
 
     Joi.object({
+      chain: Joi.string().optional(),
       currency: Joi.string().required(),
       to: Joi.array().items(To).required()
     }).required()
