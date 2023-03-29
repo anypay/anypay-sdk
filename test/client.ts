@@ -6,7 +6,9 @@ import { app, demo, schema } from '../src/lib'
 
 import * as bsv from 'bsv'
 
-const anypay = app(process.env.ANYPAY_APP_TOKEN) 
+const anypay = app({
+  apiKey: process.env.ANYPAY_APP_TOKEN
+}) 
 
 describe("Anypay Payments SDK", () => {
 

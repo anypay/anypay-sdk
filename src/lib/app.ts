@@ -1,25 +1,28 @@
-interface AnypayOptions {
+
+export interface AnypayOptions {
   apiKey?: string;
   apiBase?: string;
   websocketUrl?: string;
   connectWebsocket?: boolean;
 }
 
+import { PaymentOption } from './payment_option'
+
 import { PaymentRequestOptions } from './payment_request'
 
 import { WebSocket } from 'ws'
 
 import axios from 'axios'
+
+import * as http from 'superagent'
   
 import { PaymentRequest } from './payment_request'
 
 export { PaymentRequest }
 
-import { schema } from './schema'
+import { schema, PaymentRequestTemplate } from './schema'
 
 import { EventEmitter } from "events";
-
-import * as http from 'superagent'
 
 import { Invoice } from './invoice'
 
@@ -138,7 +141,7 @@ export class App extends EventEmitter {
 
   }
 
-  async request(template, options: PaymentRequestOptions={}): Promise<PaymentRequest> {
+  async request(template: PaymentRequestTemplate, options: PaymentRequestOptions={}): Promise<PaymentRequest> {
 
     const { error, value } = schema.PaymentRequestTemplate.validate(template)
 
@@ -156,22 +159,37 @@ export class App extends EventEmitter {
 
       let url = `${this.apiBase}/r` 
 
+
+      if (!Array.isArray(template)) {
+
+        template = [{
+          chain: template.chain,
+          currency: template.currency,
+          to: [{
+            address: template.address,
+            amount: template.amount,
+            currency: template.currency
+          }]
+        }]
+
+      }
+
       let resp = await http
-        .post(url)
-        .send({ template, options })
-        .auth(this.apiKey, '')
+          .post(url)
+          .send({ template, options })
+          .auth(this.apiKey, '')
 
-      resp.body.uid = resp.body.invoice_uid
-      
-      delete resp.body.invoice_uid
+      const data = resp.body
 
-      return Object.assign(resp.body, resp.body.options)
+      data.uid = data.invoice_uid
+
+      return Object.assign(data, data.options)
 
      } catch(error) {
 
-       console.error(error.response.body.payload)
+       console.error(error)
 
-       throw error.response.error
+       throw error.response.data.error
 
      }
 
@@ -308,6 +326,20 @@ export class App extends EventEmitter {
     await invoice.fetch()
 
     return invoice
+
+  }
+
+  async getPaymentOption({ uid, chain, currency }: { uid: string, chain: string, currency: string }): Promise<PaymentOption> {
+
+    const { data } = await axios.post(`${this.apiBase}/r/${uid}`, {
+      chain, currency
+    }, {
+      headers: {
+        'content-type': 'application/payment-request'
+      }
+    })
+
+    return new PaymentOption({ uid, chain, currency, data })
 
   }
 

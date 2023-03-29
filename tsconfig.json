@@ -14,6 +14,7 @@
   "exclude": [
     "node_modules",
     "dist",
-    "request_bsv.ts"
+    "request_bsv.ts",
+    "request_usdc_polygon.ts"
   ]
 }

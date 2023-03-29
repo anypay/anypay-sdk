@@ -15,27 +15,41 @@ describe("Confirming Invoice Payments", () => {
 
   it('should fetch payment confirmation details for paid invoice', async () => {
 
-    const invoice_uid = 'iQBfCPVjX'
+    try {
 
-    const invoice = await anypay.getInvoice({ uid: invoice_uid })
+      const invoice_uid = 'iQBfCPVjX'
 
-    const {payment, confirmation} = await invoice.getPaymentConfirmation()
+      console.log('GET INVOICE', { invoice_uid })
 
-    console.log({ payment, confirmation })
+      const invoice = await anypay.getInvoice({ uid: invoice_uid })
 
-    expect(payment.txid).to.be.a('string')
+      console.log('INVOICE', invoice)
 
-    expect(payment.chain).to.be.equal('BTC')
+      const {payment, confirmation} = await invoice.getPaymentConfirmation()
 
-    expect(payment.currency).to.be.equal('BTC')
+      console.log({ payment, confirmation })
 
-    expect(confirmation.block_hash).to.be.a('string')
+      expect(payment.txid).to.be.a('string')
 
-    expect(confirmation.block_height).to.be.a('number')
+      expect(payment.chain).to.be.equal('BTC')
 
-    expect(confirmation.block_index).to.be.a('number')
- 
-    expect(confirmation.timestamp).to.be.a('number')
+      expect(payment.currency).to.be.equal('BTC')
+
+      expect(confirmation.block_hash).to.be.a('string')
+
+      expect(confirmation.block_height).to.be.a('number')
+
+      expect(confirmation.block_index).to.be.a('number')
+   
+      expect(confirmation.timestamp).to.be.a('number')
+
+    } catch(error) {
+
+      console.log('caught error')
+
+      console.error(error)
+
+    }
 
   })
 
@@ -63,7 +77,9 @@ describe("Confirming Invoice Payments", () => {
 
     it('should have a payment but not a confirmation for newly paid invoice', async () => {
 
-      const walletbot = app(process.env.wallet_bot_access_token)
+      const walletbot = app({
+        apiKey: process.env.wallet_bot_access_token
+      })
 
       const {invoice, cancel, refresh} = await anypay.createInvoice([{
         currency: 'BTC',

@@ -4,7 +4,9 @@ import { app, Invoice } from '../src/lib'
 
 import { expect } from './utils'
 
-const anypay = app(process.env.ANYPAY_APP_TOKEN) 
+const anypay = app({
+  apiKey: process.env.ANYPAY_APP_TOKEN
+}) 
 
 describe("Cancelling Invoices", () => {
 

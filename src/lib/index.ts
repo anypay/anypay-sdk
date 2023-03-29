@@ -5,9 +5,13 @@ export { PaymentRequest }
 
 import { schema } from './schema'
 
+import { PaymentOption } from './payment_option'
+
+export { PaymentOption }
+
 export { schema } 
 
-import { App } from './app'
+import { App, AnypayOptions } from './app'
 
 import { Invoice } from './invoice'
 
@@ -17,9 +21,9 @@ export { Payment } from './payment'
 
 export { Confirmation } from './confirmation'
 
-export function app(anypay_app_token) {
+export function app(options: AnypayOptions) {
 
-  return new App(anypay_app_token)
+  return new App(options)
 
 }
 
