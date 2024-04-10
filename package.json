@@ -1,6 +1,6 @@
 {
-  "name": "anypay",
-  "version": "0.7.0",
+  "name": "@anypay/client",
+  "version": "0.8.0",
   "description": "Anypay Enterprise Payments Platform",
   "main": "dist/src/lib/index.js",
   "types": "dist/src/lib/index.d.js",
@@ -32,7 +32,8 @@
     "superagent": "^6.0.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2",
-    "ws": "^8.13.0"
+    "ws": "^8.13.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/chai-as-promised": "^7.1.5",

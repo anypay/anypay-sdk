@@ -1,34 +1,58 @@
 
 require('dotenv').config()
 
-import { app } from './src/lib' 
-
-import { Websocket } from 'ws'
-
-const anypay = app({
-  apiKey: process.env.anypay_api_key,
-  websocketUrl: process.env.anypay_websocket_url || 'ws://localhost:5201'
-})
+import { SubscribeOptions, subscribe, events } from './src/lib' 
 
 export async function main() {
 
-  anypay.on('websocket.message.received', ({type, payload}) => {
+  const subscribeOptions: SubscribeOptions = {
+    websocket: {
+        auth: {
+            token: String(process.env.ANYPAY_AUTH_TOKEN)
+        }
+    }
+  }
 
-    console.log('anypay.websocket.message.received.message', {type, payload})
+  if (process.env.ANYPAY_WEBSOCKET_URL) {
 
+      subscribeOptions.websocket.url = process.env.ANYPAY_WEBSOCKET_URL
+
+  }
+
+  subscribe(subscribeOptions)
+
+  .onInvoiceCreated((event: events.InvoiceCreatedEvent) => {        
+      console.log(JSON.stringify(event))
+  })
+  .onInvoiceCancelled((event: events.InvoiceCancelledEvent) => {
+
+      console.log(JSON.stringify(event))
+  })
+  .onInvoicePaid((event: events.InvoicePaidEvent) => {
+
+      console.log(JSON.stringify(event))
+  })
+  .onPaymentConfirming((event: events.PaymentConfirmingEvent) => {
+
+      console.log(JSON.stringify(event))
+  })
+  .onPaymentConfirmed((event: events.InvoiceCancelledEvent) => {
+
+      console.log(JSON.stringify(event))
+  })
+  .onPaymentFailed((event: events.PaymentFailedEvent) => {
+
+      console.log(JSON.stringify(event))
+  })
+  .onWebsocketConnected((event: events.WebsocketConnectedEvent) => {
+
+      console.log(JSON.stringify(event))
+  })
+  .onError((error: Error) => {
+      
+      console.error(error)
   })
 
-  anypay.events.on('invoice.created', ({type,payload}) => {
-
-    console.log('Invoice Created', {type, payload})
-
-  })
-
-  anypay.events.on('invoice.paid', ({type,payload}) => {
-
-    console.log('Invoice Paid!', {type, payload})
-
-  })
 
 }
 

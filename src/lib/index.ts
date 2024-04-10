@@ -52,3 +52,4 @@ export async function request(params) {
 
 }
 
+export { events, subscribe, SubscribeOptions } from './websockets'
