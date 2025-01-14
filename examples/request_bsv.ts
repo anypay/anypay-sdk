@@ -1,7 +1,7 @@
 
 require('dotenv').config()
 
-import anypay from '.'
+import anypay from '@anypay/client'
 
 export async function main() {
 

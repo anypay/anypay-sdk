@@ -29,7 +29,8 @@ export function app(options: AnypayOptions) {
 
 const defaultApp = new App({
   apiKey: '1f2a4a55-85ed-4935-af60-1ec91e75e2fc',
-  apiBase: 'https://api.anypayx.com'
+  apiBase: 'https://api.anypayx.com',
+  connectWebsocket: false
 })
 
 export default defaultApp

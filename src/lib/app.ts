@@ -1,5 +1,5 @@
 
-export interface AnypayOptions {
+export interface AnypayOptionsAnypayOptions {
   apiKey?: string;
   apiBase?: string;
   websocketUrl?: string;
@@ -57,7 +57,7 @@ export class App extends EventEmitter {
 
     this.websocketUrl = options.websocketUrl || 'wss://ws.anypayx.com'
 
-    const shouldConnectWebsocket = options.connectWebsocket === false ? false : true
+    const shouldConnectWebsocket = options.connectWebsocket === true ? true : false
 
     if (this.apiKey && shouldConnectWebsocket) {
 
@@ -79,6 +79,7 @@ export class App extends EventEmitter {
 
       this.websocket = new WebSocket(this.websocketUrl, {
         headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
           'anypay-access-token': this.apiKey
         }
       })
