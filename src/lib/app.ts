@@ -1,5 +1,5 @@
 
-export interface AnypayOptionsAnypayOptions {
+export interface AnypayOptions {
   apiKey?: string;
   apiBase?: string;
   websocketUrl?: string;
