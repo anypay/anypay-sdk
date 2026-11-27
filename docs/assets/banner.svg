@@ -10,7 +10,7 @@
     Category: CORE · SDK
   -->
   <title id="title">Anypay TypeScript SDK — Anypay</title>
-  <desc id="desc">Official TypeScript SDK for browser & Node.js payment integration</desc>
+  <desc id="desc">Official TypeScript SDK for browser &amp; Node.js payment integration</desc>
 
   <defs>
     <linearGradient id="anypay-sdk-mark-a" x1="100%" x2="50%" y1="5.663%" y2="50%">
